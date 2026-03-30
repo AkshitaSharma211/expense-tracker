@@ -1,0 +1,25 @@
+/* General Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background-color: #f0f2f5; color: #1c1e21; }
+
+/* Navbar */
+.navbar { background: #6080ad; color: white; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; }
+.navbar ul { display: flex; list-style: none; }
+.navbar ul li { margin-left: 20px; }
+.navbar a { color: white; text-decoration: none; font-weight: 500; }
+
+/* Dashboard Layout */
+.main-content { padding: 40px 5%; max-width: 1200px; margin: 0 auto; }
+.form-card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 30px; }
+
+/* Table Styling */
+.table-container { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+table { width: 100%; border-collapse: collapse; }
+th { background-color: #f8fafc; color: #64748b; font-weight: 600; text-align: left; padding: 15px; border-bottom: 2px solid #edf2f7; }
+td { padding: 15px; border-bottom: 1px solid #edf2f7; }
+
+/* Buttons & Tags */
+.btn-primary { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; transition: 0.3s; }
+.btn-primary:hover { background: #0056b3; }
+.tag { background: #e2e8f0; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; }
+.delete-link { color: #e11d48; text-decoration: none; font-weight: 600; }

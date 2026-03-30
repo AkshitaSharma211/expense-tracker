@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h1>Expense Dashboard</h1>
+</div>
+
+<section class="form-card">
+    <form action="/add" method="POST">
+        <input type="text" name="desc" placeholder="Description" required>
+        <input type="number" name="amount" placeholder="Amount" required>
+        <input type="date" name="date" required>
+        <select name="category">
+            <option value="Food">Food</option>
+            <option value="Medical">Medical Supplies</option>
+            <option value="Utility">Utility</option>
+        </select>
+        <button type="submit" class="btn-primary">Add Expense</button>
+    </form>
+</section>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+            <tr>
+                <td>{{ expense.date }}</td>
+                <td>{{ expense.description }}</td>
+                <td><span class="tag">{{ expense.category }}</span></td>
+                <td>₹{{ expense.amount }}</td>
+                <td><a href="/delete/{{ expense.id }}" class="delete-link">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
