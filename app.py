@@ -1,4 +1,4 @@
-from flask import Flask,render_template
+from flask import Flask,render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import date
 
@@ -22,8 +22,26 @@ with app.app_context():
     
 @app.route("/")
 def index():
-    # Make sure this says index.html
-    return render_template("index.html")
+
+    expenses=Expense.query.all()
+    return render_template("index.html",expenses=expenses)
+
+@app.route("/add",methods=["POST"])
+def add():
+    desc=request.form["desc"]
+    amount=request.form["amount"]
+    category=request.form["category"]
+    new_expense=Expense(description=desc, amount=amount, category=category)
+    db.session.add(new_expense)
+    db.session.commit()
+    return redirect("/")
+
+@app.route("/delete/<int:id>")
+def delete(id):
+    expense=Expense.query.get(id)
+    db.session.delete(expense)
+    db.session.commit()
+    return redirect("/")
 
 if __name__ == "__main__":
    app.run(debug=True,port=4848) 
