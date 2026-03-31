@@ -21,14 +21,19 @@ class Expense(db.Model):
 with app.app_context():
     db.create_all()
 
-    
 @app.route("/")
 def index():
-
     today = date.today().strftime("%Y-%m-%d")
-    expenses=Expense.query.all()
-    total=sum(e.amount for e in expenses)
-    return render_template("index.html",expenses=expenses, total=total, today=today)
+    expenses = Expense.query.all()
+    total = sum(e.amount for e in expenses)
+    category_totals = {}
+    for expense in expenses:
+        if expense.category not in category_totals:
+            category_totals[expense.category] = expense.amount
+        else:
+            category_totals[expense.category] += expense.amount
+    
+    return render_template("index.html", expenses=expenses, total=total, today=today, category_totals=category_totals)
 
 @app.route("/add",methods=["POST"])
 def add():

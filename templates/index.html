@@ -63,5 +63,12 @@
     </div>
 </div>
 
+<div class="category-totals">
+    <h3>By Category</h3>
+    {% for category, amount in category_totals.items() %}
+        <p>{{ category }}: ₹{{ amount }}</p>
+    {% endfor %}
+</div>
+
 
 {% endblock %}
