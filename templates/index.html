@@ -1,9 +1,19 @@
 {% extends "base.html" %}
 
-{% block content %}
 <div class="dashboard-header">
     <h1>Expense Dashboard</h1>
 </div>
+
+{% block content %}
+ 
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <p class="error">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
 
 <section class="form-card">
     <form action="/add" method="POST">
@@ -52,4 +62,6 @@
         </strong>
     </div>
 </div>
+
+
 {% endblock %}

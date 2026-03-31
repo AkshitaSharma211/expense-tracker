@@ -23,3 +23,9 @@ td { padding: 15px; border-bottom: 1px solid #edf2f7; }
 .btn-primary:hover { background: #0056b3; }
 .tag { background: #e2e8f0; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; }
 .delete-link { color: #e11d48; text-decoration: none; font-weight: 600; }
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 8px;
+}

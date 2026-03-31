@@ -1,12 +1,14 @@
 from flask import Flask,render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import date,datetime
+from flask import Flask, render_template, request, redirect, flash
 
 
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///expenses.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
+app.config['SECRET_KEY'] = 'your-secret-key'
 db=SQLAlchemy(app)
 
 class Expense(db.Model):
@@ -34,6 +36,19 @@ def add():
     amount=request.form["amount"]
     category=request.form["category"]
     expense_date = datetime.strptime(request.form["date"], "%Y-%m-%d").date()   
+    if not desc:
+        flash("Add a Description about the expense")
+        return redirect("/")
+    
+    try:
+        amount = float(amount)
+    except ValueError:
+         flash("Amount should be a valid numeric ")
+         return redirect("/")
+    if amount<=0:
+        flash("Amount should be positive")
+        return redirect("/")
+       
     new_expense=Expense(description=desc, amount=amount, category=category, date=expense_date)
     db.session.add(new_expense)
     db.session.commit()
@@ -42,6 +57,8 @@ def add():
 @app.route("/delete/<int:id>")
 def delete(id):
     expense=Expense.query.get(id)
+    if expense==None:
+        return redirect("/")
     db.session.delete(expense)
     db.session.commit()
     return redirect("/")
