@@ -1,6 +1,6 @@
 from flask import Flask,render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
-from datetime import date
+from datetime import date,datetime
 
 
 app = Flask(__name__)
@@ -16,22 +16,25 @@ class Expense(db.Model):
     category = db.Column(db.String(120), nullable=False)
     date = db.Column(db.Date, nullable=False, default=date.today)
 
-
 with app.app_context():
     db.create_all()
+
     
 @app.route("/")
 def index():
 
+    today = date.today().strftime("%Y-%m-%d")
     expenses=Expense.query.all()
-    return render_template("index.html",expenses=expenses)
+    total=sum(e.amount for e in expenses)
+    return render_template("index.html",expenses=expenses, total=total, today=today)
 
 @app.route("/add",methods=["POST"])
 def add():
     desc=request.form["desc"]
     amount=request.form["amount"]
     category=request.form["category"]
-    new_expense=Expense(description=desc, amount=amount, category=category)
+    expense_date = datetime.strptime(request.form["date"], "%Y-%m-%d").date()   
+    new_expense=Expense(description=desc, amount=amount, category=category, date=expense_date)
     db.session.add(new_expense)
     db.session.commit()
     return redirect("/")
