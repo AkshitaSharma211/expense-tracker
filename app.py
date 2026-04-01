@@ -24,7 +24,13 @@ with app.app_context():
 @app.route("/")
 def index():
     today = date.today().strftime("%Y-%m-%d")
-    expenses = Expense.query.all()
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+    query = Expense.query
+    if start_date and end_date:
+        query = query.filter(Expense.date.between(start_date, end_date))
+
+    expenses = query.order_by(Expense.date.desc()).all()
     total = sum(e.amount for e in expenses)
     category_totals = {}
     for expense in expenses:
@@ -33,7 +39,8 @@ def index():
         else:
             category_totals[expense.category] += expense.amount
     
-    return render_template("index.html", expenses=expenses, total=total, today=today, category_totals=category_totals)
+    return render_template("index.html", expenses=expenses, total=total, today=today, category_totals=category_totals, start_date=start_date,
+                           end_date=end_date)
 
 @app.route("/add",methods=["POST"])
 def add():

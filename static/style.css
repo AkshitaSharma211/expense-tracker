@@ -29,3 +29,19 @@ td { padding: 15px; border-bottom: 1px solid #edf2f7; }
     font-size: 14px;
     margin-bottom: 8px;
 }
+
+.filter-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+    background: #f4f4f4;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.btn-clear {
+    text-decoration: none;
+    color: #666;
+    font-size: 0.9rem;
+}
