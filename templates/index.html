@@ -43,6 +43,7 @@
     </form>
 </section>
 
+
 <div class="table-container">
     <table>
         <thead>
@@ -62,8 +63,13 @@
                 <td><span class="tag">{{ expense.category }}</span></td>
                 <td>₹{{ expense.amount }}</td>
                                 <td><a href="/delete/{{ expense.id }}" class="delete-link">Delete</a></td>
+                                <td>
+                                    <a href="/edit/{{ expense.id }}">Edit</a>
+        <a href="/delete/{{ expense.id }}" class="delete-link">Delete</a>
+                                </td>
             </tr>
             {% endfor %}
+
         </tbody>
     </table>
     <div class="total">

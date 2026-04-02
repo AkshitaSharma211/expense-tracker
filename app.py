@@ -75,5 +75,24 @@ def delete(id):
     db.session.commit()
     return redirect("/")
 
+@app.route("/edit/<int:id>")
+def edit(id):
+    expense = Expense.query.get(id)
+    return render_template("edit.html", expense=expense)
+
+@app.route("/update/<int:id>", methods=["POST"])
+def update(id):
+    expense = Expense.query.get(id)
+    if expense is None:
+        return redirect("/")
+    
+    expense.description = request.form["desc"]
+    expense.amount = float(request.form["amount"])
+    expense.date = datetime.strptime(request.form["date"], "%Y-%m-%d").date()
+    expense.category = request.form["category"]
+    
+    db.session.commit()
+    return redirect("/")
+
 if __name__ == "__main__":
    app.run(debug=True,port=4848) 
