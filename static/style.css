@@ -97,3 +97,29 @@ input:focus, select:focus {
     font-weight: 600;
     margin-right: 12px;
 }
+
+.chart-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-top: 20px;
+}
+.chart-card h3 {
+    font-size: 0.95rem;
+    color: #64748b;
+    margin-bottom: 16px;
+}
+
+.chart-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-top: 20px;
+}
+.chart-card h3 {
+    font-size: 0.95rem;
+    color: #64748b;
+    margin-bottom: 16px;
+}

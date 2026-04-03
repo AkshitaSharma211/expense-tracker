@@ -1,11 +1,7 @@
 {% extends "base.html" %}
 
-<div class="dashboard-header">
-    <h1>Expense Dashboard</h1>
-</div>
-
 {% block content %}
- 
+
 {% with messages = get_flashed_messages() %}
     {% if messages %}
         {% for message in messages %}
@@ -13,7 +9,6 @@
         {% endfor %}
     {% endif %}
 {% endwith %}
-
 
 <section class="form-card">
     <form action="/add" method="POST">
@@ -28,25 +23,20 @@
             <option value="Travel">Travel</option>
             <option value="Stationary">Stationary</option>
             <option value="Entertainment">Entertainment</option>
-
         </select>
         <button type="submit" class="btn-primary">Add Expense</button>
     </form>
 </section>
 
 <section class="filter-card">
+    <p>Filter by date</p>
     <form action="/" method="GET" class="filter-form">
-        <input type="date" name="start_date" placeholder="Start Date">
-        <input type="date" name="end_date" placeholder="End Date">
+        <input type="date" name="start_date">
+        <input type="date" name="end_date">
         <button type="submit" class="btn-secondary">Filter</button>
         <a href="/" class="btn-clear">Clear</a>
     </form>
 </section>
-
-<section class="filter-card">
-    <p>Filter by date</p>
-    <form method="GET" action="/">
-
 
 <div class="table-container">
     <table>
@@ -65,17 +55,16 @@
                 <td>{{ expense.date }}</td>
                 <td>{{ expense.description }}</td>
                 <td><span class="tag">{{ expense.category }}</span></td>
-                <td>₹{{ "%.0f" | format(expense.amount) }}</td>
-                                <td>
-                                    <a href="/edit/{{ expense.id }}" class="edit-link">Edit</a>
-        <a href="/delete/{{ expense.id }}" class="delete-link">Delete</a>
-                                </td>
+                <td>₹{{ "%.0f"|format(expense.amount) }}</td>
+                <td>
+                    <a href="/edit/{{ expense.id }}" class="edit-link">Edit</a>
+                    <a href="/delete/{{ expense.id }}" class="delete-link">Delete</a>
+                </td>
             </tr>
             {% endfor %}
-
         </tbody>
     </table>
-
+</div>
 
 <div class="summary-card">
     <div class="total">
@@ -89,5 +78,35 @@
     </div>
 </div>
 
+<div class="chart-card">
+    <h3>Spending by category</h3>
+    <canvas id="categoryChart"></canvas>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const chartLabels = {{ category_totals.keys() | list | tojson }};
+    const chartData = {{ category_totals.values() | list | tojson }};
+
+    new Chart(document.getElementById('categoryChart'), {
+        type: 'bar',
+        data: {
+            labels: chartLabels,
+            datasets: [{
+                label: 'Amount (₹)',
+                data: chartData,
+                backgroundColor: '#6080ad',
+                borderRadius: 6,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+</script>
 
 {% endblock %}
