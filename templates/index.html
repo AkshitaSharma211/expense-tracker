@@ -43,6 +43,10 @@
     </form>
 </section>
 
+<section class="filter-card">
+    <p>Filter by date</p>
+    <form method="GET" action="/">
+
 
 <div class="table-container">
     <table>
@@ -61,10 +65,9 @@
                 <td>{{ expense.date }}</td>
                 <td>{{ expense.description }}</td>
                 <td><span class="tag">{{ expense.category }}</span></td>
-                <td>₹{{ expense.amount }}</td>
-                                <td><a href="/delete/{{ expense.id }}" class="delete-link">Delete</a></td>
+                <td>₹{{ "%.0f" | format(expense.amount) }}</td>
                                 <td>
-                                    <a href="/edit/{{ expense.id }}">Edit</a>
+                                    <a href="/edit/{{ expense.id }}" class="edit-link">Edit</a>
         <a href="/delete/{{ expense.id }}" class="delete-link">Delete</a>
                                 </td>
             </tr>
@@ -72,17 +75,18 @@
 
         </tbody>
     </table>
-    <div class="total">
-        <strong> Total: {{ total}}
-        </strong>
-    </div>
-</div>
 
-<div class="category-totals">
-    <h3>By Category</h3>
-    {% for category, amount in category_totals.items() %}
-        <p>{{ category }}: ₹{{ amount }}</p>
-    {% endfor %}
+
+<div class="summary-card">
+    <div class="total">
+        <strong>Total: ₹{{ "%.0f"|format(total) }}</strong>
+    </div>
+    <div class="category-totals">
+        <h3>By Category</h3>
+        {% for category, amount in category_totals.items() %}
+            <p>{{ category }}: ₹{{ "%.0f"|format(amount) }}</p>
+        {% endfor %}
+    </div>
 </div>
 
 
