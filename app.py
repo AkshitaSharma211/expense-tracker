@@ -23,6 +23,8 @@ class Expense(db.Model):
     amount = db.Column(db.Float, nullable=False)
     category = db.Column(db.String(120), nullable=False)
     date = db.Column(db.Date, nullable=False, default=date.today)
+    user_id     = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
 
 class User(UserMixin, db.Model):    
     id = db.Column(db.Integer, primary_key=True )
@@ -89,7 +91,7 @@ def index():
     today = date.today().strftime("%Y-%m-%d")
     start_date = request.args.get('start_date')
     end_date = request.args.get('end_date')
-    query = Expense.query
+    query = Expense.query.filter_by(user_id=current_user.id)
     if start_date and end_date:
         query = query.filter(Expense.date.between(start_date, end_date))
 
@@ -125,7 +127,7 @@ def add():
         flash("Amount should be positive")
         return redirect("/")
        
-    new_expense=Expense(description=desc, amount=amount, category=category, date=expense_date)
+    new_expense = Expense(description=desc, amount=amount, category=category, date=expense_date, user_id=current_user.id)  
     db.session.add(new_expense)
     db.session.commit()
     return redirect("/")

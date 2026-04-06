@@ -8,12 +8,17 @@
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">Expense-tracker</div>
-        <ul>
+    <div class="logo">Expense-tracker</div>
+    <ul>
+        {% if current_user.is_authenticated %}
             <li><a href="/">Home</a></li>
-            <li><a href="/reports">Reports</a></li>
-        </ul>
-    </nav>
+            <li><a href="/logout">Logout</a></li>
+        {% else %}
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Register</a></li>
+        {% endif %}
+    </ul>
+</nav>
 
     <main class="main-content">
         {% block content %}{% endblock %}
